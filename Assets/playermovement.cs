@@ -70,7 +70,7 @@ public class playermovement : MonoBehaviour
                 );
             }
         }
-        Destroy(splashPrefab, 1f);
+        
         wasAboveWater = isAboveWater;
 
         // -------------------------------------------------
