@@ -135,6 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8460831581386964576, guid: d62e2d46461827f429ecb52046f25855, type: 3}
     - target: {fileID: 475993454749944869, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
+      propertyPath: splashPrefab
+      value: 
+      objectReference: {fileID: 8335464821217558316, guid: d62e2d46461827f429ecb52046f25855, type: 3}
+    - target: {fileID: 475993454749944869, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
       propertyPath: normalGravity
       value: 10
       objectReference: {fileID: 0}

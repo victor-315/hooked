@@ -17,7 +17,7 @@ public class playermovement : MonoBehaviour
     private float knockTimer = 0f;
 
     [Header("Effects")]
-    public ParticleSystem splashPrefab;
+    public GameObject splashPrefab;
 
     private bool wasAboveWater = false;
 
@@ -70,7 +70,7 @@ public class playermovement : MonoBehaviour
                 );
             }
         }
-
+        Destroy(splashPrefab, 1f);
         wasAboveWater = isAboveWater;
 
         // -------------------------------------------------
