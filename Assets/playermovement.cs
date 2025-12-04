@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class playermovement : MonoBehaviour
 {
+    [Header("Health")]
+    public int maxHealth = 100;
+	public int currentHealth;
+
+	public healthbar healthBar;
+
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float acceleration = 10f;
@@ -32,6 +38,8 @@ public class playermovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+        currentHealth = maxHealth;
+		healthBar.SetMaxHealth(maxHealth);
     }
 
     void Update()
@@ -116,6 +124,12 @@ public class playermovement : MonoBehaviour
 
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
+    void TakeDamage(int damage)
+	{
+		currentHealth -= damage;
+
+		healthBar.SetHealth(currentHealth);
+	}
 
     public void Knockback(Vector2 direction, float force)
     {
@@ -123,5 +137,6 @@ public class playermovement : MonoBehaviour
         knockTimer = knockbackDuration;
         velocity = direction * force;
         col.enabled = false;
+        TakeDamage(20);
     }
 }

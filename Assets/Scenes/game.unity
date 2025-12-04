@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 475993454749944869, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1710387332}
+    - target: {fileID: 475993454749944869, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
       propertyPath: splashEffect
       value: 
       objectReference: {fileID: 8460831581386964576, guid: d62e2d46461827f429ecb52046f25855, type: 3}
@@ -193,10 +197,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4259058644699228677, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: 133906250}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
 --- !u!4 &7995188 stripped
 Transform:
@@ -349,26 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18eb5c83bcd2de847a7d2341d1da4ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &133906243 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4259058644699228677, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
-  m_PrefabInstance: {fileID: 7995187}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &133906250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133906243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d9761939dcec2449b436c564d756f38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  healthBar: {fileID: 1710387332}
 --- !u!1001 &168767160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2367,18 +2348,18 @@ MonoBehaviour:
   slider: {fileID: 1710387333}
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 1, g: 0, b: 0.30821705, a: 1}
+    key1: {r: 1, g: 0.71235406, b: 0, a: 1}
+    key2: {r: 1, g: 0.71235406, b: 0, a: 0}
+    key3: {r: 0, g: 1, b: 0.00011277199, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
+    ctime0: 22231
+    ctime1: 29298
+    ctime2: 42148
+    ctime3: 65535
     ctime4: 0
     ctime5: 0
     ctime6: 0
@@ -2391,9 +2372,9 @@ MonoBehaviour:
     atime5: 0
     atime6: 0
     atime7: 0
-    m_Mode: 0
+    m_Mode: 1
     m_ColorSpace: -1
-    m_NumColorKeys: 2
+    m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   fill: {fileID: 1784718866}
 --- !u!114 &1710387333
@@ -2558,7 +2539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
