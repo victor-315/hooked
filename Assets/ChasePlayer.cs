@@ -3,10 +3,15 @@ using UnityEngine;
 public class FishChasePlayer : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float swimSpeed = 2f;           // continuous slow movement
+    public float swimSpeed = 2f;           // normal swim/glide speed
     public float splashForce = 7f;         // burst impulse
     public float splashInterval = 0.7f;
-    public float blendSpeed = 2f;          // how fast the glide slows back into normal swim
+    public float blendSpeed = 2f;          // how fast they slow back down
+
+    [Header("Gravity (Matches Player)")]
+    public float normalGravity = 3f;       // gravity above water
+    public float gravityFadeSpeed = 2f;    // fade-out underwater
+    private bool wasAboveWater = false;    
 
     [Header("Detection")]
     public float detectionRadius = 8f;
@@ -28,12 +33,45 @@ public class FishChasePlayer : MonoBehaviour
         splashTimer -= Time.fixedDeltaTime;
 
         float distance = Vector2.Distance(transform.position, player.position);
+        bool isAboveWater = transform.position.y > -2.8f;
 
-        if (distance > detectionRadius)
+        //------------------------------------
+        // GRAVITY LIKE THE PLAYER
+        //------------------------------------
+        if (isAboveWater)
         {
-            return; // fish idle if too far
+            rb.gravityScale = normalGravity;
+        }
+        else
+        {
+            rb.gravityScale = Mathf.MoveTowards(
+                rb.gravityScale,
+                0f,
+                gravityFadeSpeed * Time.fixedDeltaTime
+            );
         }
 
+        //------------------------------------
+        // WATER SPLASH EFFECT (if you want it)
+        //------------------------------------
+        if (wasAboveWater && !isAboveWater)
+        {
+            // optional: spawn splash here if your fish should splash
+        }
+        wasAboveWater = isAboveWater;
+
+        //------------------------------------
+        // MOVEMENT (Only when in water)
+        //------------------------------------
+        if (!isAboveWater) // fish only chase when underwater
+        {
+            if (distance <= detectionRadius)
+                SwimBehavior();
+        }
+    }
+
+    void SwimBehavior()
+    {
         Vector2 direction = (player.position - transform.position).normalized;
 
         // ---- SPLASH BURSTS ----
@@ -44,12 +82,11 @@ public class FishChasePlayer : MonoBehaviour
         }
 
         // ---- SMOOTH GLIDE + SWIM ----
-        // DO NOT override velocity — only blend toward swimSpeed softly
         Vector2 targetVelocity = direction * swimSpeed;
 
         rb.velocity = Vector2.Lerp(
-            rb.velocity,           // current glide/burst speed
-            targetVelocity,        // normal swim speed
+            rb.velocity,
+            targetVelocity,
             blendSpeed * Time.fixedDeltaTime
         );
     }
