@@ -150,6 +150,10 @@ PrefabInstance:
       propertyPath: gravityFadeSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 475993454749944869, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
+      propertyPath: knockbackDuration
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 4259058644699228677, guid: 672e1dad422d9474d861df6b86188eca, type: 3}
       propertyPath: m_Name
       value: pLAYER
