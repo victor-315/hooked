@@ -70,7 +70,7 @@ public class playermovement : MonoBehaviour
         // -------------------------------------------------
         // DASH INPUT (requires charge)
         // -------------------------------------------------
-        if (!isDashing && dashCooldownTimer <= 0f && currentDashCharges > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (!isDashing && dashCooldownTimer <= 0f && currentDashCharges > 0 && Input.GetMouseButtonDown(0))
         {
             if (input.sqrMagnitude > 0.01f)
                 dashDirection = input;
