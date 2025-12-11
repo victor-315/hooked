@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class playermovement : MonoBehaviour
 {
     public Animator animator;
+
     [Header("Health")]
     public int maxHealth = 100;
     public int currentHealth;
@@ -26,6 +27,7 @@ public class playermovement : MonoBehaviour
     [Header("Effects")]
     public GameObject splashPrefab;
 
+    // ---------------- NORMAL DASH ----------------
     [Header("Dash")]
     public float dashSpeed = 15f;
     public float dashDuration = 0.15f;
@@ -45,13 +47,33 @@ public class playermovement : MonoBehaviour
     public float dashRechargeTime = 1f;
     private float dashRechargeTimer = 0f;
 
-    private bool wasAboveWater = false;
+    // ---------------- POWER DASH ----------------
+    [Header("Power Dash (Right Click)")]
+    public float powerDashSpeed = 23f;
+    public float powerDashDuration = 0.18f;
+    public float powerDashCooldown = 1f;
 
+    [Range(0f, 1f)]
+    public float powerDashMomentumCarry = 0.55f;
+
+    public int maxPowerDashCharges = 2;
+    public int currentPowerDashCharges = 2;
+    public float powerDashRechargeTime = 1.5f;
+
+    private bool isPowerDashing = false;
+    private float powerDashTimer = 0f;
+    private float powerDashCooldownTimer = 0f;
+    private float powerDashRechargeTimer = 0f;
+    private Vector2 powerDashDirection;
+
+    // ------------------------------------------------
+    private bool wasAboveWater = false;
     private Rigidbody2D rb;
     private Vector2 input;
     private Vector2 velocity;
     private SpriteRenderer sr;
     private Collider2D col;
+
 
     void Start()
     {
@@ -64,18 +86,19 @@ public class playermovement : MonoBehaviour
 
     void Update()
     {
-        if (isKnocked)
-            return;
+        if (isKnocked) return;
 
-        // -------------------------------------------------
-        // DASH INPUT (requires charge)
-        // -------------------------------------------------
-        if (!isDashing && dashCooldownTimer <= 0f && currentDashCharges > 0 && Input.GetMouseButtonDown(0))
+        // ================================
+        // NORMAL DASH INPUT (Left Click)
+        // ================================
+        if (!isDashing && !isPowerDashing &&
+            dashCooldownTimer <= 0f &&
+            currentDashCharges > 0 &&
+            Input.GetMouseButtonDown(0))
         {
-            if (input.sqrMagnitude > 0.01f)
-                dashDirection = input;
-            else
-                dashDirection = sr.flipX ? Vector2.right : Vector2.left;
+            dashDirection = (input.sqrMagnitude > 0.01f)
+                ? input
+                : (sr.flipX ? Vector2.left : Vector2.right);
 
             isDashing = true;
             dashTimer = dashDuration;
@@ -83,20 +106,18 @@ public class playermovement : MonoBehaviour
 
             currentDashCharges--;
             dashRechargeTimer = dashRechargeTime;
+
             animator.SetTrigger("dash");
         }
 
-        // Dash cooldown
+        // NORMAL DASH COOLDOWN
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
 
-        // -------------------------------------------------
-        // DASH RECHARGE (1 per second)
-        // -------------------------------------------------
+        // NORMAL DASH RECHARGE
         if (currentDashCharges < maxDashCharges)
         {
             dashRechargeTimer -= Time.deltaTime;
-
             if (dashRechargeTimer <= 0f)
             {
                 currentDashCharges++;
@@ -104,10 +125,47 @@ public class playermovement : MonoBehaviour
             }
         }
 
-        // -------------------------------------------------
-        // INPUT (disabled during dash)
-        // -------------------------------------------------
-        if (!isDashing)
+        // ================================
+        // POWER DASH INPUT (Right Click)
+        // ================================
+        if (!isPowerDashing && !isDashing &&
+            powerDashCooldownTimer <= 0f &&
+            currentPowerDashCharges > 0 &&
+            Input.GetMouseButtonDown(1))
+        {
+            powerDashDirection = (input.sqrMagnitude > 0.01f)
+                ? input
+                : (sr.flipX ? Vector2.left : Vector2.right);
+
+            isPowerDashing = true;
+            powerDashTimer = powerDashDuration;
+            powerDashCooldownTimer = powerDashCooldown;
+
+            currentPowerDashCharges--;
+            powerDashRechargeTimer = powerDashRechargeTime;
+
+            animator.SetTrigger("dash");
+        }
+
+        // POWER DASH COOLDOWN
+        if (powerDashCooldownTimer > 0f)
+            powerDashCooldownTimer -= Time.deltaTime;
+
+        // POWER DASH RECHARGE
+        if (currentPowerDashCharges < maxPowerDashCharges)
+        {
+            powerDashRechargeTimer -= Time.deltaTime;
+            if (powerDashRechargeTimer <= 0f)
+            {
+                currentPowerDashCharges++;
+                powerDashRechargeTimer = powerDashRechargeTime;
+            }
+        }
+
+        // ================================
+        // INPUT
+        // ================================
+        if (!isDashing && !isPowerDashing)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
@@ -117,43 +175,35 @@ public class playermovement : MonoBehaviour
 
             input.Normalize();
         }
+
         animator.SetFloat("speed", Mathf.Abs(input.x));
-        // Sprite flip
+
         if (input.x > 0) sr.flipX = false;
         else if (input.x < 0) sr.flipX = true;
 
-        // -------------------------------------------------
-        // SPLASH WHEN ENTERING WATER
-        // -------------------------------------------------
+        // WATER SPLASH
         bool isAboveWater = transform.position.y > -2.8f;
-
-        if (wasAboveWater && !isAboveWater)
+        if (wasAboveWater && !isAboveWater && splashPrefab)
         {
-            if (splashPrefab != null)
-            {
-                Instantiate(splashPrefab,
-                    new Vector3(transform.position.x, -2.8f, transform.position.z),
-                    Quaternion.identity
-                );
-            }
+            Instantiate(splashPrefab,
+                new Vector3(transform.position.x, -2.8f, transform.position.z),
+                Quaternion.identity
+            );
         }
-
         wasAboveWater = isAboveWater;
 
-        // -------------------------------------------------
-        // GRAVITY LOGIC
-        // -------------------------------------------------
-        if (isAboveWater)
-            rb.gravityScale = normalGravity;
-        else
-            rb.gravityScale = Mathf.MoveTowards(rb.gravityScale, 0f, gravityFadeSpeed * Time.deltaTime);
+        // GRAVITY
+        rb.gravityScale = isAboveWater
+            ? normalGravity
+            : Mathf.MoveTowards(rb.gravityScale, 0f, gravityFadeSpeed * Time.deltaTime);
     }
+
 
     void FixedUpdate()
     {
-        // -------------------------------------------------
-        // DASH MOVEMENT
-        // -------------------------------------------------
+        // =====================================
+        // NORMAL DASH MOVEMENT
+        // =====================================
         if (isDashing)
         {
             dashTimer -= Time.fixedDeltaTime;
@@ -165,13 +215,29 @@ public class playermovement : MonoBehaviour
                 isDashing = false;
                 velocity = dashDirection * dashSpeed * dashMomentumCarry;
             }
-
             return;
         }
 
-        // -------------------------------------------------
-        // KNOCKBACK MOVEMENT
-        // -------------------------------------------------
+        // =====================================
+        // POWER DASH MOVEMENT
+        // =====================================
+        if (isPowerDashing)
+        {
+            powerDashTimer -= Time.fixedDeltaTime;
+
+            rb.MovePosition(rb.position + powerDashDirection * powerDashSpeed * Time.fixedDeltaTime);
+
+            if (powerDashTimer <= 0f)
+            {
+                isPowerDashing = false;
+                velocity = powerDashDirection * powerDashSpeed * powerDashMomentumCarry;
+            }
+            return;
+        }
+
+        // =====================================
+        // KNOCKBACK
+        // =====================================
         if (isKnocked)
         {
             knockTimer -= Time.fixedDeltaTime;
@@ -186,9 +252,9 @@ public class playermovement : MonoBehaviour
             return;
         }
 
-        // -------------------------------------------------
+        // =====================================
         // NORMAL MOVEMENT
-        // -------------------------------------------------
+        // =====================================
         Vector2 targetVelocity = input * moveSpeed;
 
         velocity = Vector2.MoveTowards(
