@@ -162,6 +162,8 @@ MonoBehaviour:
   splashForce: 6
   splashInterval: 1
   blendSpeed: 1
+  normalGravity: 2
+  gravityFadeSpeed: 15
   detectionRadius: 8
 --- !u!50 &2917746382973434319
 Rigidbody2D:
