@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FishChasePlayer : MonoBehaviour
 {
+    public SpriteRenderer sr;
     [Header("Movement Settings")]
     public float swimSpeed = 2f;           // normal swim/glide speed
     public float splashForce = 7f;         // burst impulse
@@ -50,7 +51,10 @@ public class FishChasePlayer : MonoBehaviour
                 gravityFadeSpeed * Time.fixedDeltaTime
             );
         }
-
+        if (player.position.x > transform.position.x)
+            sr.flipX = true; // facing right
+        else
+            sr.flipX = false;  // facing left
         //------------------------------------
         // WATER SPLASH EFFECT (if you want it)
         //------------------------------------

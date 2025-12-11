@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class playermovement : MonoBehaviour
 {
+    public Animator animator;
     [Header("Health")]
     public int maxHealth = 100;
     public int currentHealth;
@@ -82,6 +83,7 @@ public class playermovement : MonoBehaviour
 
             currentDashCharges--;
             dashRechargeTimer = dashRechargeTime;
+            animator.SetTrigger("dash");
         }
 
         // Dash cooldown
@@ -115,10 +117,10 @@ public class playermovement : MonoBehaviour
 
             input.Normalize();
         }
-
+        animator.SetFloat("speed", Mathf.Abs(input.x));
         // Sprite flip
-        if (input.x > 0) sr.flipX = true;
-        else if (input.x < 0) sr.flipX = false;
+        if (input.x > 0) sr.flipX = false;
+        else if (input.x < 0) sr.flipX = true;
 
         // -------------------------------------------------
         // SPLASH WHEN ENTERING WATER
