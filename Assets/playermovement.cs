@@ -32,7 +32,6 @@ public class playermovement : MonoBehaviour
     public float dashSpeed = 15f;
     public float dashDuration = 0.15f;
     public float dashCooldown = 0.5f;
-
     [Range(0f, 1f)]
     public float dashMomentumCarry = 0.4f;
 
@@ -52,7 +51,6 @@ public class playermovement : MonoBehaviour
     public float powerDashSpeed = 23f;
     public float powerDashDuration = 0.18f;
     public float powerDashCooldown = 1f;
-
     [Range(0f, 1f)]
     public float powerDashMomentumCarry = 0.55f;
 
@@ -178,9 +176,6 @@ public class playermovement : MonoBehaviour
 
         animator.SetFloat("speed", Mathf.Abs(input.x));
 
-        if (input.x > 0) sr.flipX = false;
-        else if (input.x < 0) sr.flipX = true;
-
         // WATER SPLASH
         bool isAboveWater = transform.position.y > -2.8f;
         if (wasAboveWater && !isAboveWater && splashPrefab)
@@ -210,6 +205,8 @@ public class playermovement : MonoBehaviour
 
             rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
 
+            HandleRotation(dashDirection);
+
             if (dashTimer <= 0f)
             {
                 isDashing = false;
@@ -226,6 +223,8 @@ public class playermovement : MonoBehaviour
             powerDashTimer -= Time.fixedDeltaTime;
 
             rb.MovePosition(rb.position + powerDashDirection * powerDashSpeed * Time.fixedDeltaTime);
+
+            HandleRotation(powerDashDirection);
 
             if (powerDashTimer <= 0f)
             {
@@ -256,14 +255,29 @@ public class playermovement : MonoBehaviour
         // NORMAL MOVEMENT
         // =====================================
         Vector2 targetVelocity = input * moveSpeed;
-
-        velocity = Vector2.MoveTowards(
-            velocity,
-            targetVelocity,
-            acceleration * Time.fixedDeltaTime
-        );
-
+        velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.fixedDeltaTime);
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+
+        if (velocity.sqrMagnitude > 0.01f)
+            HandleRotation(velocity);
+    }
+
+    private void HandleRotation(Vector2 dir)
+    {
+        if (dir.sqrMagnitude < 0.01f) return;
+
+        // Flip sprite horizontally
+        if (dir.x > 0.01f) sr.flipX = false;
+        else if (dir.x < -0.01f) sr.flipX = true;
+
+        // Compute angle for vertical movement
+        float angle = Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
+
+        // Reverse angle if sprite is flipped
+        if (sr.flipX)
+            angle = -angle;
+
+        rb.rotation = angle;
     }
 
     void TakeDamage(int damage)
