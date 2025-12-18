@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class sceneSwitch : MonoBehaviour
+public class switchscene : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,9 +16,8 @@ public class sceneSwitch : MonoBehaviour
     {
         
     }
-
-    public void ChangeScene(string name)
+    public void LoadScene(string StringName)
     {
-        SceneManager.LoadScene(name);
+        SceneManager.LoadScene(StringName);
     }
 }
