@@ -7,7 +7,7 @@ public class ArrowPointer2D : MonoBehaviour
 
     void Update()
     {
-        Vector2 direction = finish.position - player.position;
+        Vector2 direction = (Vector2)finish.position - (Vector2)player.position;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
