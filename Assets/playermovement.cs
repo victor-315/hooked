@@ -142,7 +142,7 @@ public class playermovement : MonoBehaviour
             currentPowerDashCharges--;
             powerDashRechargeTimer = powerDashRechargeTime;
 
-            animator.SetTrigger("dash");
+            animator.SetTrigger("superdash");
         }
 
         // POWER DASH COOLDOWN
@@ -174,7 +174,7 @@ public class playermovement : MonoBehaviour
             input.Normalize();
         }
 
-        animator.SetFloat("speed", Mathf.Abs(input.x));
+        animator.SetFloat("speed", Mathf.Abs(input.magnitude));
 
         // WATER SPLASH
         bool isAboveWater = transform.position.y > -2.8f;
