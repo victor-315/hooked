@@ -3,16 +3,17 @@ using UnityEngine;
 public class FishChasePlayer : MonoBehaviour
 {
     public SpriteRenderer sr;
+
     [Header("Movement Settings")]
-    public float swimSpeed = 2f;           // normal swim/glide speed
-    public float splashForce = 7f;         // burst impulse
+    public float swimSpeed = 2f;
+    public float splashForce = 7f;
     public float splashInterval = 0.7f;
-    public float blendSpeed = 2f;          // how fast they slow back down
+    public float blendSpeed = 2f;
 
     [Header("Gravity (Matches Player)")]
-    public float normalGravity = 3f;       // gravity above water
-    public float gravityFadeSpeed = 2f;    // fade-out underwater
-    private bool wasAboveWater = false;    
+    public float normalGravity = 3f;
+    public float gravityFadeSpeed = 2f;
+    private bool wasAboveWater = false;
 
     [Header("Detection")]
     public float detectionRadius = 8f;
@@ -37,7 +38,7 @@ public class FishChasePlayer : MonoBehaviour
         bool isAboveWater = transform.position.y > -2.8f;
 
         //------------------------------------
-        // GRAVITY LIKE THE PLAYER
+        // GRAVITY (MATCH PLAYER)
         //------------------------------------
         if (isAboveWater)
         {
@@ -51,26 +52,22 @@ public class FishChasePlayer : MonoBehaviour
                 gravityFadeSpeed * Time.fixedDeltaTime
             );
         }
-        if (player.position.x > transform.position.x)
-            sr.flipX = true; // facing right
-        else
-            sr.flipX = false;  // facing left
+
         //------------------------------------
-        // WATER SPLASH EFFECT (if you want it)
+        // WATER SPLASH CHECK
         //------------------------------------
         if (wasAboveWater && !isAboveWater)
         {
-            // optional: spawn splash here if your fish should splash
+            // optional splash
         }
         wasAboveWater = isAboveWater;
 
         //------------------------------------
-        // MOVEMENT (Only when in water)
+        // MOVEMENT (UNDERWATER ONLY)
         //------------------------------------
-        if (!isAboveWater) // fish only chase when underwater
+        if (!isAboveWater && distance <= detectionRadius)
         {
-            if (distance <= detectionRadius)
-                SwimBehavior();
+            SwimBehavior();
         }
     }
 
@@ -78,14 +75,14 @@ public class FishChasePlayer : MonoBehaviour
     {
         Vector2 direction = (player.position - transform.position).normalized;
 
-        // ---- SPLASH BURSTS ----
+        // ---- SPLASH BURST ----
         if (splashTimer <= 0f)
         {
             rb.AddForce(direction * splashForce, ForceMode2D.Impulse);
             splashTimer = splashInterval;
         }
 
-        // ---- SMOOTH GLIDE + SWIM ----
+        // ---- SMOOTH GLIDE ----
         Vector2 targetVelocity = direction * swimSpeed;
 
         rb.velocity = Vector2.Lerp(
@@ -93,6 +90,34 @@ public class FishChasePlayer : MonoBehaviour
             targetVelocity,
             blendSpeed * Time.fixedDeltaTime
         );
+
+        // ---- ROTATE (INVERTED FOR FLIPPED SPRITE) ----
+        HandleRotation(direction);
+    }
+
+    private void HandleRotation(Vector2 dir)
+    {
+        if (dir.sqrMagnitude < 0.01f) return;
+
+        // -----------------------------
+        // INVERTED FLIP LOGIC
+        // (because sprite is reversed)
+        // -----------------------------
+        if (dir.x > 0.01f)
+            sr.flipX = true;   // WAS false
+        else if (dir.x < -0.01f)
+            sr.flipX = false;  // WAS true
+
+        // -----------------------------
+        // INVERTED ROTATION LOGIC
+        // -----------------------------
+        float angle = Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
+
+        // Reverse angle when NOT flipped (opposite of player)
+        if (!sr.flipX)
+            angle = -angle;
+
+        rb.rotation = angle;
     }
 
     void OnDrawGizmosSelected()
