@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e048c1a5904fb649b493a44b16ecf37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: level 1
+  sceneName: level1
 --- !u!58 &856510162
 CircleCollider2D:
   m_ObjectHideFlags: 0
