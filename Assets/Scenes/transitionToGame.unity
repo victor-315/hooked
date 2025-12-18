@@ -1183,6 +1183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1834670036}
+  sceneName: Tutorial
 --- !u!1001 &1975863526
 PrefabInstance:
   m_ObjectHideFlags: 0
