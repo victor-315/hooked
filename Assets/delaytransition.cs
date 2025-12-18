@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class pullup_T : MonoBehaviour
 {
     public Animator _animator;
+    public string sceneName;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,6 @@ public class pullup_T : MonoBehaviour
     {
         
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("game");
+        SceneManager.LoadScene(sceneName);
     }
 }
