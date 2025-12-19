@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
-  knockbackForce: 4
+  knockbackForce: 0
 --- !u!114 &207921807456544697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,13 +161,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 1560741612865938437}
-  swimSpeed: 1
+  swimSpeed: 0.5
   splashForce: 4
   splashInterval: 1
   blendSpeed: 1
   normalGravity: 2
   gravityFadeSpeed: 15
-  detectionRadius: 10
+  detectionRadius: 5
 --- !u!50 &2917746382973434319
 Rigidbody2D:
   serializedVersion: 4

@@ -1,4 +1,3 @@
-// File name: FollowPlayerXOnly.cs
 using UnityEngine;
 
 public class FollowPlayerXOnly : MonoBehaviour
