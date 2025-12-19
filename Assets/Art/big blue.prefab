@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 207921807456544697, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
+      propertyPath: detectionRadius
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2917746382973434319, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -38,11 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6875481212236352600, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 125.87
+      value: 36.9
       objectReference: {fileID: 0}
     - target: {fileID: 6875481212236352600, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -24.81
+      value: -26.812836
       objectReference: {fileID: 0}
     - target: {fileID: 6875481212236352600, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83,5 +87,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3919853525796195273, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7056979218934689307}
   m_SourcePrefab: {fileID: 100100000, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
+--- !u!1 &8749708615965292724 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3919853525796195273, guid: d8f2310a39a71d141a803ee78c930699, type: 3}
+  m_PrefabInstance: {fileID: 5695694135611896701}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7056979218934689307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8749708615965292724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d40c3cd458852f7449180d9edc0d2515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 3834827369080758980, guid: 339ef22181d91424eaf037ab9796ee67, type: 3}
+  spawnInterval: 1

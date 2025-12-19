@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2917746382973434319}
   - component: {fileID: 5510932171364712604}
   m_Layer: 6
-  m_Name: obstacle 1
+  m_Name: obstacle 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4217223582d714f4281b526d5f72b2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
   knockbackForce: 4
 --- !u!114 &207921807456544697
 MonoBehaviour:
@@ -166,7 +167,7 @@ MonoBehaviour:
   blendSpeed: 1
   normalGravity: 2
   gravityFadeSpeed: 15
-  detectionRadius: 8
+  detectionRadius: 6
 --- !u!50 &2917746382973434319
 Rigidbody2D:
   serializedVersion: 4
