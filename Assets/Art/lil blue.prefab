@@ -10,7 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 207921807456544697, guid: 9f097ffa0ed56ca4b8fc0e77c2c5a6fd, type: 3}
       propertyPath: swimSpeed
-      value: 10
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 207921807456544697, guid: 9f097ffa0ed56ca4b8fc0e77c2c5a6fd, type: 3}
+      propertyPath: splashForce
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 207921807456544697, guid: 9f097ffa0ed56ca4b8fc0e77c2c5a6fd, type: 3}
+      propertyPath: splashInterval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 207921807456544697, guid: 9f097ffa0ed56ca4b8fc0e77c2c5a6fd, type: 3}
       propertyPath: detectionRadius

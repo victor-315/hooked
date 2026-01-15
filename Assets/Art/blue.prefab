@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4217223582d714f4281b526d5f72b2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
   knockbackForce: 4
 --- !u!114 &207921807456544697
 MonoBehaviour:
@@ -160,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 1560741612865938437}
-  swimSpeed: 3
+  swimSpeed: 2.7
   splashForce: 6
   splashInterval: 1
   blendSpeed: 1
