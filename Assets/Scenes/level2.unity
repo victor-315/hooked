@@ -656,10 +656,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 352733531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc93c36cbda9c724781c8a16599d1f2d, type: 3}
+  m_Script: {fileID: 11500000, guid: ef5e68b3563bae04c80e2a998cb99988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5711229793989263590}
+  followSpeed: 5
+  xOffset: 7
 --- !u!50 &352733533
 Rigidbody2D:
   serializedVersion: 4
@@ -695,7 +697,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352733531}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 019e3067acb9b3f4eb1890c74b888423, type: 2}
   m_CullingMode: 0
@@ -772,8 +774,7 @@ Transform:
   m_LocalPosition: {x: 3.83, y: -2.5, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1377067265}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &404845195
@@ -2616,11 +2617,11 @@ Transform:
   m_GameObject: {fileID: 1377067262}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0.854, z: 0}
-  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
+  m_LocalPosition: {x: 5.93, y: 2.6239996, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 352733536}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1417945717
 PrefabInstance:
@@ -3600,12 +3601,12 @@ MonoBehaviour:
   m_ScreenX: 0.45699996
   m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0.135
-  m_DeadZoneHeight: 0.197
+  m_DeadZoneWidth: 0
+  m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 1.622
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneHeight: 0.858
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -4149,6 +4150,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 271045618}
+  - {fileID: 1377067265}
   - {fileID: 352733536}
   - {fileID: 1360028962}
   - {fileID: 4797998885991752888}
