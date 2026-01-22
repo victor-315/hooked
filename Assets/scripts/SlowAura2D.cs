@@ -7,24 +7,28 @@ public class SlowAura2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.CompareTag("Player"))
         {
+
             playermovement player = other.GetComponent<playermovement>();
             if (player != null)
             {
-                player.moveSpeed *= slowMultiplier;
+                player.speedMultiplier = slowMultiplier;
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+
         if (other.CompareTag("Player"))
         {
+
             playermovement player = other.GetComponent<playermovement>();
             if (player != null)
             {
-                player.moveSpeed /= slowMultiplier;
+                player.speedMultiplier = 1f;
             }
         }
     }

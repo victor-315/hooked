@@ -198,7 +198,7 @@ public class playermovement : MonoBehaviour
         if (isDashing)
         {
             dashTimer -= Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + dashDirection * dashSpeed * speedMultiplier * Time.fixedDeltaTime);
             HandleRotation(dashDirection);
 
             if (dashTimer <= 0f)
@@ -212,7 +212,7 @@ public class playermovement : MonoBehaviour
         if (isPowerDashing)
         {
             powerDashTimer -= Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + powerDashDirection * powerDashSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + powerDashDirection * powerDashSpeed * speedMultiplier * Time.fixedDeltaTime);
             HandleRotation(powerDashDirection);
 
             if (powerDashTimer <= 0f)
