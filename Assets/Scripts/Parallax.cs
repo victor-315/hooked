@@ -1,21 +1,16 @@
 using UnityEngine;
  
-public class Parallax : MonoBehaviour
+[ExecuteInEditMode]
+public class ParallaxLayer : MonoBehaviour
 {
-    public float offsetMultiplier = 1f;
-    public float smoothTime = .3f;
+    public float parallaxFactor;
  
-    private Vector2 startPosition;
-    private Vector3 velocity;
- 
-    private void Start()
+    public void Move(float delta)
     {
-        startPosition = transform.position;
+        Vector3 newPos = transform.localPosition;
+        newPos.x -= delta * parallaxFactor;
+ 
+        transform.localPosition = newPos;
     }
  
-    private void Update()
-    {
-        Vector2 offset = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        transform.position = Vector3.SmoothDamp(transform.position, startPosition + (offset * offsetMultiplier), ref velocity, smoothTime);
-    }
 }
