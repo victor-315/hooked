@@ -15,6 +15,9 @@ public class playermovement : MonoBehaviour
     public float acceleration = 10f;
     public float deceleration = 10f;
 
+    [HideInInspector] public float speedMultiplier = 1f;
+    private float baseMoveSpeed;
+
     [Header("Gravity")]
     public float normalGravity = 3f;
     public float gravityFadeSpeed = 2f;
@@ -72,12 +75,14 @@ public class playermovement : MonoBehaviour
     private SpriteRenderer sr;
     private Collider2D col;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+
+        baseMoveSpeed = moveSpeed;
+
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
@@ -108,11 +113,9 @@ public class playermovement : MonoBehaviour
             animator.SetTrigger("dash");
         }
 
-        // NORMAL DASH COOLDOWN
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
 
-        // NORMAL DASH RECHARGE
         if (currentDashCharges < maxDashCharges)
         {
             dashRechargeTimer -= Time.deltaTime;
@@ -145,11 +148,9 @@ public class playermovement : MonoBehaviour
             animator.SetTrigger("superdash");
         }
 
-        // POWER DASH COOLDOWN
         if (powerDashCooldownTimer > 0f)
             powerDashCooldownTimer -= Time.deltaTime;
 
-        // POWER DASH RECHARGE
         if (currentPowerDashCharges < maxPowerDashCharges)
         {
             powerDashRechargeTimer -= Time.deltaTime;
@@ -176,35 +177,28 @@ public class playermovement : MonoBehaviour
 
         animator.SetFloat("speed", Mathf.Abs(input.magnitude));
 
-        // WATER SPLASH
         bool isAboveWater = transform.position.y > -2.8f;
         if (wasAboveWater && !isAboveWater && splashPrefab)
         {
-            Instantiate(splashPrefab,
+            Instantiate(
+                splashPrefab,
                 new Vector3(transform.position.x, -2.8f, transform.position.z),
                 Quaternion.identity
             );
         }
         wasAboveWater = isAboveWater;
 
-        // GRAVITY
         rb.gravityScale = isAboveWater
             ? normalGravity
             : Mathf.MoveTowards(rb.gravityScale, 0f, gravityFadeSpeed * Time.deltaTime);
     }
 
-
     void FixedUpdate()
     {
-        // =====================================
-        // NORMAL DASH MOVEMENT
-        // =====================================
         if (isDashing)
         {
             dashTimer -= Time.fixedDeltaTime;
-
             rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
-
             HandleRotation(dashDirection);
 
             if (dashTimer <= 0f)
@@ -215,15 +209,10 @@ public class playermovement : MonoBehaviour
             return;
         }
 
-        // =====================================
-        // POWER DASH MOVEMENT
-        // =====================================
         if (isPowerDashing)
         {
             powerDashTimer -= Time.fixedDeltaTime;
-
             rb.MovePosition(rb.position + powerDashDirection * powerDashSpeed * Time.fixedDeltaTime);
-
             HandleRotation(powerDashDirection);
 
             if (powerDashTimer <= 0f)
@@ -234,9 +223,6 @@ public class playermovement : MonoBehaviour
             return;
         }
 
-        // =====================================
-        // KNOCKBACK
-        // =====================================
         if (isKnocked)
         {
             knockTimer -= Time.fixedDeltaTime;
@@ -251,10 +237,7 @@ public class playermovement : MonoBehaviour
             return;
         }
 
-        // =====================================
-        // NORMAL MOVEMENT
-        // =====================================
-        Vector2 targetVelocity = input * moveSpeed;
+        Vector2 targetVelocity = input * baseMoveSpeed * speedMultiplier;
         velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.fixedDeltaTime);
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 
@@ -266,16 +249,11 @@ public class playermovement : MonoBehaviour
     {
         if (dir.sqrMagnitude < 0.01f) return;
 
-        // Flip sprite horizontally
         if (dir.x > 0.01f) sr.flipX = false;
         else if (dir.x < -0.01f) sr.flipX = true;
 
-        // Compute angle for vertical movement
         float angle = Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
-
-        // Reverse angle if sprite is flipped
-        if (sr.flipX)
-            angle = -angle;
+        if (sr.flipX) angle = -angle;
 
         rb.rotation = angle;
     }
